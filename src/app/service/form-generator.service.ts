@@ -15,7 +15,6 @@ export class FormGeneratorService {
   // Needs adjusting 
   // should move to a service
   setValidation(cur: FieldInput) {
-    console.log(cur)
     return (!cur.subType) ? this.fb.control(cur.value, Validators.required) :
         (cur.subType === 'email') ? this.fb.control(cur.value, [Validators.required, Validators.pattern(this.emailPattern)],) :
         (cur.subType === 'tel') ?  this.fb.control(cur.value, [Validators.required, phoneNumberValidator]) :  this.fb.control(cur.value, Validators.required);
