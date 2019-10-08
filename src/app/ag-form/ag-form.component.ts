@@ -1,57 +1,34 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { FormArray, FormBuilder, Validators, ValidationErrors } from '@angular/forms';
-import { phoneNumberValidator } from '../validators/phone-validator';
+import { Component, Input } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { STATE_CODE } from '../state';
+import { FormGeneratorService } from '../service/form-generator.service';
 
 @Component({
   selector: 'ag-form',
   templateUrl: './ag-form.component.html',
   styleUrls: ['./ag-form.component.css']
 })
-export class AgFormComponent implements OnInit {
+export class AgFormComponent {
 
-  private emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$";
   public states = STATE_CODE.map(s => ({label: s.name,value: s.abbreviation}));
-
+  private _formInputs: FieldInput[];
   parentForm = this.fb.group({});
 
-  @Input() formInputs: FieldInput[];
-  constructor(private fb: FormBuilder) { }
+  @Input() 
+  set formInputs(val: FieldInput[]) {
+    if (val) {
+      this._formInputs = val;
+      this.parentForm = this.formGenerator.generateForm(val);
+    }
+  };
 
-  // Needs adjusteding 
-  // should move to a service
-  setValidation(cur: FieldInput) {
-    console.log(cur)
-    return (!cur.subType) ? this.fb.control(cur.value, Validators.required) :
-        (cur.subType === 'email') ? this.fb.control(cur.value, [Validators.required, Validators.pattern(this.emailPattern)],) :
-        (cur.subType === 'tel') ?  this.fb.control(cur.value, [Validators.required, phoneNumberValidator]) :  this.fb.control(cur.value, Validators.required);
+  get formInputs() {
+    return this._formInputs;
   }
-
-  ngOnInit() {
-
-    this.formInputs.forEach(cur => {
-      const defaultVal = [''];
-      if (cur.required && (cur.type !== 'array')) {
-        const validation = this.setValidation(cur);
-        this.parentForm.addControl(cur.fieldName, this.setValidation(cur));
-      }
-
-      if (cur.type === 'array') {
-        this.parentForm.addControl(cur.fieldName, this.fb.array([this.fb.control('')]) );
-      }
-
-      if (cur.type === 'nested') {
-        const nestedGroup = this.fb.group({});
-        cur.child.forEach(item => {
-          nestedGroup.addControl(item.fieldName, this.setValidation(item))
-        });
-        this.parentForm.addControl(cur.fieldName, nestedGroup);
-      }
-
-      this.parentForm.addControl(cur.fieldName, this.setValidation(cur));
-    });
-
-  }
+  constructor(
+    private fb: FormBuilder,
+    private formGenerator: FormGeneratorService
+    ) { }
 
   onSubmit() {
     // TODO: Use EventEmitter with form value
