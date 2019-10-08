@@ -1,0 +1,17 @@
+<ag-input-wrapper
+  [inputField]="inputField"
+  [alertMessage]="alertMessage">
+  <label [for]="selectId" >
+    {{ label }}:
+    <select
+      [id]="selectId"
+      [name]="name"
+      [value]="value"
+      (change)="onChange($event.target.value)"
+      (blur)="onBlur()"
+      [required]="">
+      <option value="">--Please choose an option--</option>
+      <option *ngFor="let o of options" [value]="o.value" >{{ o.label }}</option>
+    </select>
+  </label>
+</ag-input-wrapper>

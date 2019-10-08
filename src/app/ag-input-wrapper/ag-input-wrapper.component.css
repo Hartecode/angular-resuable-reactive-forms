@@ -1,0 +1,57 @@
+:host{
+  display: block;
+  width: 100%;
+}
+
+:host /deep/ label {
+  display: block;
+  margin: .5em 0;
+  color: #607D8B;
+  font-weight: bold;
+  width: 100%;
+
+}
+
+:host /deep/ input {
+  box-sizing: border-box;
+  height: 2em;
+  font-size: 1em;
+  padding-left: .4em;
+  width: 100%;
+}
+
+.alert {
+  display: block;
+  color: red;
+  height: 18px;
+  /* overflow: hidden; */
+  /* position: relative; */
+}
+/* 
+p {
+  animation-name: slidein;
+  animation-duration: 1s;
+  margin: 0;
+  position: absolute;
+} */
+
+:host /deep/ select {
+  box-sizing: border-box;
+  height: 2em;
+  font-size: 1em;
+  padding-left: .4em;
+  width: 100%;
+}
+
+@keyframes slidein {
+    0%   {
+      opacity: 0;
+      top: -2rem;
+    }
+    50% {
+      top: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+}

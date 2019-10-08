@@ -1,0 +1,12 @@
+<ng-content></ng-content>
+<ng-container *ngIf="inputField?.invalid && (inputField?.dirty || inputField?.touched)">
+  <div class="alert" *ngIf="inputField.errors?.required" aria-live="assertive">
+    <p>{{alertMessage || 'The is required.'}}</p>
+  </div>
+
+  <div class="alert" *ngIf="(inputField.errors?.pattern || inputField.errors?.invalidNumber) && inputField.dirty" aria-live="assertive">
+    <p *ngIf="alertMessage; else default2">{{alertMessage}}</p>
+    <p #default2>Please enter a valid value.</p>
+  </div>
+
+</ng-container>

@@ -1,0 +1,17 @@
+<ag-input-wrapper
+  [inputField]="inputField"
+  [alertMessage]="alertMessage">
+  <label [for]="inputId">
+    {{ label }}
+  </label>
+  <input 
+      [id]="inputId"
+      [type]="inputType"
+      [name]="inputName"
+      [value]="value"
+      (input)="onChange($event.target.value)"
+      (blur)="onBlur()"
+      [attr.disabled]="disabled"
+      [required]="inputField.errors?.required"
+      >
+</ag-input-wrapper>

@@ -1,0 +1,90 @@
+<form [formGroup]="parentForm" (ngSubmit)="onSubmit()">
+
+  <ng-container *ngFor="let field of formInputs; let i = index">
+
+    <ng-container *ngIf="this.parentForm.get(field.fieldName) as control">
+
+      <ag-input *ngIf="field.type === 'input'"
+        [label]="field.label"
+        [inputId]="'input' + i"
+        [inputName]="field.fieldName"
+        [formControlName]="field.fieldName"
+        [inputField]="control"
+        [alertMessage]="'This is required'">
+      </ag-input>
+
+      <ag-select *ngIf="field.type === 'select'"
+        [label]="field.label"
+        [selectId]="'select' + i"
+        [selectName]="field.fieldName"
+        [formControlName]="field.fieldName"
+        [inputField]="control"
+        alertmessage="This is required"
+        [options]="field.options"
+        >
+      </ag-select>
+
+      <div *ngIf="field.type === 'nested'"
+        class="form-nested"
+        [formGroupName]="field.fieldName">
+        <h3>{{field.label}}</h3>
+        <ng-container *ngFor="let child of field.child; let x = index">
+          <ng-container *ngIf="control.get(child.fieldName) as nestedControl">
+
+            <ag-input *ngIf="child.type === 'input'"
+              [label]="child.label"
+              [inputId]="'input' + i + x"
+              [inputName]="child.fieldName"
+              [formControlName]="child.fieldName"
+              [inputField]="nestedControl"
+              [alertMessage]="'This is required'">
+            </ag-input>
+
+            <ag-select *ngIf="child.type === 'select'"
+              [label]="child.label"
+              [selectId]="'select' + i + x"
+              [selectName]="child.fieldName"
+              [formControlName]="child.fieldName"
+              [inputField]="nestedControl"
+              alertmessage="This is required"
+              [options]="child.options">
+            </ag-select>
+            
+          </ng-container>
+          
+        </ng-container>
+      </div>
+    </ng-container>
+
+    <ag-form-array 
+      *ngIf="field.type === 'array'"
+      class="form-array"
+      [label]="field.label" 
+      [subLabel]="field.subLabel"
+      [name]="field.fieldName" 
+      [parentForm]="parentForm"
+      [formName]="field.fieldName"
+      [type]="field.subType">
+    </ag-form-array>
+
+  </ng-container>
+
+  <button type="submit" [disabled]="!parentForm.valid">Submit</button>
+</form>
+
+<hr>
+
+
+<pre>
+  <code>
+  Form Value: {{ parentForm.value | json }}
+  </code>
+</pre>
+
+
+<p [ngClass]="{
+  'valid': parentForm.status === 'VALID',
+  'invalid': parentForm.status === 'INVALID'
+}">
+  Form Status: {{ parentForm.status }}
+</p>

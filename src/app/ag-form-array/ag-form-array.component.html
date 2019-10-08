@@ -1,0 +1,14 @@
+<div [formGroup]="parentForm">
+  <div [formArrayName]="formName">
+    <h3>{{label}}</h3> <button (click)="addField()">Add {{label}}</button>
+
+    <div *ngFor="let control of arrayField.controls; let i=index">
+      <!-- The repeated alias template -->
+        <label for="subLabel + i">
+          {{subLabel}}:
+          <input id="subLabel + i" type="text" [formControlName]="i">
+        </label>
+      <button (click)="removeField(i)">Remove {{label}}</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,66 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  padding-top: 24px;
+}
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+  margin: auto;
+  max-width: 40rem;
+  width: 100%;
+}
+
+ag-input {
+  box-sizing: border-box;
+  flex: 1 0 50%;
+  padding: 0 0.25rem;
+  min-width: 10rem;
+}
+
+.form-nested {
+  width: 100%;
+}
+
+.form-array {
+  width: 100%;
+}
+
+button {
+  font-family: Arial;
+  background-color: #eee;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  height: 2rem;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  background-color: #cfd8dc;
+}
+
+button:disabled {
+  background-color: #eee;
+  color: #ccc;
+  cursor: auto;
+}
+
+
+pre {
+  background-color: black;
+  color: aquamarine;
+  max-width: 20rem;
+  margin: auto;
+  width: 100%;
+}
+
+.invalid {
+  color: red;
+}
+
+.valid {
+  color: green;
+}
