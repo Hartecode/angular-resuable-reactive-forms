@@ -41,20 +41,14 @@ export interface FieldInput {
   label: string;
   subLabel?: string;
   required: boolean;
-  type: 'select' | 'input' |'array'| 'nested',
-  value?: string | string[]
-  subType?: 'text' | 'tel' | 'email',
-  options?: {label: string; value: string}[]
-  child?: {
-    fieldName: string;
-    label: string;
-    required: boolean;
-    type: 'select' | 'input',
-    value?: string | string[]
-    subType?: 'text' | 'tel' | 'email',
-    options?: {label: string; value: string}[]
-  }[]
+  type: 'select' | 'input' |'array'| 'nested';
+  value?: string | string[];
+  subType?: 'text' | 'tel' | 'email';
+  options?: {label: string; value: string}[];
+  child?: FieldChild[];
 }
+
+export interface FieldChild  extends FieldInput  {}
 
 export interface SelectField {
   fieldName: string;
