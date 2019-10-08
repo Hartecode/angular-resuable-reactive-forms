@@ -21,29 +21,28 @@ export class FormGeneratorService {
   }
 
   public generateForm(formInputs) {
+    const form = {};
     formInputs.forEach(cur => {
-      const defaultVal = [''];
-      if (cur.required && (cur.type !== 'array')) {
-        const validation = this.setValidation(cur);
-        this.parentForm.addControl(cur.fieldName, this.setValidation(cur));
+      if (cur.type !== 'array' || cur.type !== 'nested') {
+        const val = (cur.required) ? [cur.value, Validators.required] : cur.value;
+        form[cur.fieldName] = val;
       }
 
       if (cur.type === 'array') {
-        this.parentForm.addControl(cur.fieldName, this.fb.array([this.fb.control('')]) );
+        form[cur.fieldName] = this.fb.array(['']);
       }
 
       if (cur.type === 'nested') {
-        const nestedGroup = this.fb.group({});
+        const nestedForm = {};
         cur.child.forEach(item => {
-          nestedGroup.addControl(item.fieldName, this.setValidation(item))
+          const val = (item.required) ? [item.value, Validators.required] : item.value;
+          nestedForm[item.fieldName] = val;
         });
-        this.parentForm.addControl(cur.fieldName, nestedGroup);
+        form[cur.fieldName] = this.fb.group(nestedForm);        
       }
-
-      this.parentForm.addControl(cur.fieldName, this.setValidation(cur));
     });
 
-    return this.parentForm;
+    return this.fb.group(form);
   }
 
 }

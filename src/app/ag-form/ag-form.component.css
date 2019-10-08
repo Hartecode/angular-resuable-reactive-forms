@@ -28,13 +28,14 @@ ag-input {
 }
 
 button {
-  font-family: Arial;
   background-color: #eee;
   border: none;
-  padding: 5px 10px;
   border-radius: 4px;
-  height: 2rem;
+  font-family: Arial;
+  padding: 5px 10px;
+  height: 3rem;
   cursor: pointer;
+  margin-top: 1.5rem;
   width: 100%;
 }
 
