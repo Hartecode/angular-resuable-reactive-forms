@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { AbstractControlOptions, FormArray, FormBuilder, FormGroup, Validators, ValidationErrors} from '@angular/forms';
-import { phoneNumberValidator } from '../validators/phone-validator';
+import {Injectable} from '@angular/core';
+import {AbstractControlOptions, FormBuilder, FormGroup, Validators, ValidatorFn} from '@angular/forms';
+import {phoneNumberValidator} from '../validators/phone-validator';
 import {FieldInput} from '../ag-form/ag-form.component';
 
 @Injectable({
@@ -15,7 +15,7 @@ export class FormGeneratorService {
     validators: [Validators.required, Validators.pattern(this.emailPattern)],
     updateOn: 'blur' };
   
-  private phoneValidation: Validators[] = [Validators.required, phoneNumberValidator]
+  private phoneValidation: ValidatorFn[] = [Validators.required, phoneNumberValidator];
 
   // set the validation based on type
   private setValidationControl(cur: FieldInput) {
@@ -24,7 +24,7 @@ export class FormGeneratorService {
         [cur.value, Validators.required];
   }
 
-  public generateForm(formInputs: FieldInput[]) {
+  public generateForm(formInputs: FieldInput[]): FormGroup {
     const controlsConfig = formInputs.reduce((acc, cur) => {
       const holder = {};
       if (cur.type === 'input' || cur.type === 'select') {
@@ -33,7 +33,7 @@ export class FormGeneratorService {
       }
 
       if (cur.type === 'array') {
-        holder[cur.fieldName] = this.fb.array(['']);
+        holder[cur.fieldName] = this.fb.array(cur.value as any[]);
       }
 
       if (cur.type === 'nested') {
@@ -45,7 +45,6 @@ export class FormGeneratorService {
         ...holder
       };
     }, {});
-
 
     return this.fb.group(controlsConfig);
   }

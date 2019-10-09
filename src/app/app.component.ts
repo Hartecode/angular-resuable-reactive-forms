@@ -77,7 +77,7 @@ export class AppComponent  {
     },
     {
       fieldName: 'contactNumber',
-      label: 'Conent',
+      label: 'Contact',
       subLabel: 'Phone',
       required: false,
       type: 'array',
